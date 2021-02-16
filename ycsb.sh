@@ -16,7 +16,7 @@ declare -i field_length=100
 declare -i record_count=1000
 declare -i operation_count=${record_count}
 declare -i insert_start=0
-declare -i insert_count=${operate_count}
+declare -i insert_count=${operation_count}
 
 function init_os() {
     local hosts=("node1" "node2" "node3")
