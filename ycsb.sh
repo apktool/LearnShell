@@ -6,6 +6,7 @@ cd "${path}" || exit
 
 
 declare -r hbase_path=/home/li/Software/apache-hbase-2.4.1
+declare -r hbase_conf=${hbase_path}/conf
 declare -r hbase_cf=f1
 
 declare -r current_path=$(pwd)
@@ -60,7 +61,7 @@ function init_hbase() {
         warn echo "Table usertable does not exist"
     fi
 
-    info echo -e "create '${table_name}','${hbase_cf}', {SPLITS => (1..8).map {|i| \"user#{1000+i*(9999-1000)/8}\"}, MAX_FILESIZE => 4*1024**3}" | bin/hbase shell
+    info echo -e "create '${table_name}',{NAME => '${hbase_cf}',VERSIONS => '1',EVICT_BLOCKS_ON_CLOSE => 'false',NEW_VERSION_BEHAVIOR => 'false',KEEP_DELETED_CELLS => 'FALSE',CACHE_DATA_ON_WRITE => 'false',DATA_BLOCK_ENCODING => 'FAST_DIFF',TTL => 'FOREVER',MIN_VERSIONS => '0',REPLICATION_SCOPE => '0',BLOOMFILTER => 'ROW',CACHE_INDEX_ON_WRITE => 'false',IN_MEMORY => 'false',CACHE_BLOOMS_ON_WRITE => 'false',PREFETCH_BLOCKS_ON_OPEN => 'false',COMPRESSION => 'LZ4',BLOCKCACHE => 'true',BLOCKSIZE => '262144'}, {SPLITS => (1..32).map {|i| \"user#{1000+i*(9999-1000)/32}\"}} " | bin/hbase shell
 
     info cd ${current_path}
 }
@@ -81,7 +82,7 @@ function init() {
 #
 ##############################################
 function load() {
-    info bin/ycsb.sh load hbase20 -P workloads/${1} -s -threads ${thread_count} -p insertstart=${insert_start} -p insertcount=${insert_count} -p recordcount=${record_count} -p fieldcount=${field_count} -p fieldlength=${field_length} -p columnfamily=${hbase_cf}
+    info bin/ycsb load hbase20 -P workloads/${1} -cp ${hbase_conf} -s -threads ${thread_count} -p insertstart=${insert_start} -p insertcount=${insert_count} -p recordcount=${record_count} -p fieldcount=${field_count} -p fieldlength=${field_length} -p columnfamily=${hbase_cf}
 }
 
 ###############################################
@@ -90,7 +91,7 @@ function load() {
 #
 ##############################################
 function run() {
-    info bin/ycsb.sh run hbase20 -P workloads/${1} -s -threads ${thread_count} -p insertstart=${insert_start} -p insertcount=${insert_count} -p operationcount=${operation_count} -p fieldcount=${field_count} -p fieldlength=${field_length} -p columnfamily=${hbase_cf}
+    info bin/ycsb run hbase20 -P workloads/${1} -cp ${hbase_conf} -s -threads ${thread_count} -p insertstart=${insert_start} -p insertcount=${insert_count} -p operationcount=${operation_count} -p fieldcount=${field_count} -p fieldlength=${field_length} -p columnfamily=${hbase_cf}
 }
 
 # bash ycsb.sh init
