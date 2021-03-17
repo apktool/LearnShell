@@ -15,9 +15,9 @@ declare -i thread_count=8
 declare -i field_count=10
 declare -i field_length=100
 declare -i record_count=1000000
-declare -i operation_count=${record_count}
+declare -i operation_count=$((${record_count}+1))
 declare -i insert_start=0
-declare -i insert_count=${operation_count}
+declare -i insert_count=${record_count}
 
 function log() {
     local out_path=${current_path}/logs
@@ -91,7 +91,7 @@ function load() {
 #
 ##############################################
 function run() {
-    info bin/ycsb run hbase20 -P workloads/${1} -cp ${hbase_conf} -s -threads ${thread_count} -p insertstart=${insert_start} -p insertcount=${insert_count} -p operationcount=${operation_count} -p fieldcount=${field_count} -p fieldlength=${field_length} -p columnfamily=${hbase_cf}
+    info bin/ycsb run hbase20 -P workloads/${1} -cp ${hbase_conf} -s -threads ${thread_count} -p insertstart=${insert_start} -p insertcount=${insert_count}  -p recordcount=${record_count} -p operationcount=${operation_count} -p fieldcount=${field_count} -p fieldlength=${field_length} -p columnfamily=${hbase_cf}
 }
 
 # bash ycsb.sh init
