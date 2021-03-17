@@ -15,7 +15,7 @@ declare -i thread_count=8
 declare -i field_count=10
 declare -i field_length=100
 declare -i record_count=1000000
-declare -i operation_count=$((${record_count}+1))
+declare -i operation_count=${record_count}
 declare -i insert_start=0
 declare -i insert_count=${record_count}
 
