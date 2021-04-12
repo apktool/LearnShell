@@ -90,3 +90,36 @@ function stop() {
 }
 
 $@
+
+#####################################
+#
+# apache alluxio
+# shell.bash
+#
+#####################################
+
+#!/usr/local/env bash
+
+bin=$(dirname "${BASH_SOURCE-$0}")
+bin=$(cd "$bin" > /dev/null || exit; pwd)
+cd "$bin" || exit
+
+declare current=$(pwd)
+echo ${current}
+cd ${current}
+
+
+function start() {
+    bin/alluxio-mount.sh Mount workers
+    bin/alluxio validateEnv master
+    bin/alluxio validateEnv worker
+    bin/alluxio format
+    bin/alluxio-start.sh all
+}
+
+function stop() {
+    bin/alluxio-mount.sh Umount workers
+    bin/alluxio-stop.sh all
+}
+
+$@
