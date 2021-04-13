@@ -11,10 +11,6 @@ bin=$(dirname "${BASH_SOURCE-$0}")
 bin=$(cd "$bin" > /dev/null || exit; pwd)
 cd "$bin" || exit
 
-declare current=$(pwd)
-echo ${current}
-cd ${current}
-
 function start() {
     bin/zkServer.sh start
 }
@@ -37,10 +33,6 @@ $@
 bin=$(dirname "${BASH_SOURCE-$0}")
 bin=$(cd "$bin" > /dev/null || exit; pwd)
 cd "$bin" || exit
-
-declare current=$(pwd)
-echo ${current}
-cd ${current}
 
 function init() {
     bin/hdfs namenode -format
@@ -103,10 +95,6 @@ $@
 bin=$(dirname "${BASH_SOURCE-$0}")
 bin=$(cd "$bin" > /dev/null || exit; pwd)
 cd "$bin" || exit
-
-declare current=$(pwd)
-echo ${current}
-cd ${current}
 
 function init() {
     bin/alluxio copyDidr conf
