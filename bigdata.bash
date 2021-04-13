@@ -108,17 +108,20 @@ declare current=$(pwd)
 echo ${current}
 cd ${current}
 
-
-function start() {
+function init() {
+    bin/alluxio copyDidr conf
+    bin/alluxio-mount.sh Umount workers
     bin/alluxio-mount.sh Mount workers
     bin/alluxio validateEnv master
     bin/alluxio validateEnv worker
     bin/alluxio format
+}
+
+function start() {
     bin/alluxio-start.sh all
 }
 
 function stop() {
-    bin/alluxio-mount.sh Umount workers
     bin/alluxio-stop.sh all
 }
 
